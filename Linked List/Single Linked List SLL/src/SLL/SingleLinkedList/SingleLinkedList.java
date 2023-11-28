@@ -54,6 +54,7 @@ public class SingleLinkedList {
             newNode.next = this.head;
             this.head = newNode;
         }
+        length++;
     }
 
     //----------------------------------------------------------------
@@ -64,21 +65,32 @@ public class SingleLinkedList {
         return;
         }
 
-        int counter = 0;
+        if (index == 0){
+            insertAtHead(data);
+            return;
+        }
+
+        if (index == length){
+            insert(data);
+            return;
+        }
+
+        int counter = 1;
         Node newNode = new Node(data);
         Node current = this.head;
 
-        while (counter <= index){
+        while (counter < index){
             current = current.next;
             counter++;
         }
         newNode.next = current.next;
         current.next = newNode;
+        length++;
     }
 
     //----------------------------------------------------------------
 
-    public void print (){
+    public void traverse (){
 
         if (head == null){
             System.out.println("Empty List");
@@ -96,6 +108,91 @@ public class SingleLinkedList {
         System.out.print("]");
     }
 
+    //----------------------------------------------------------------
+
+    public int search (int data){
+
+        int counter = 0;
+        Node current = head;
+        while (current != null){
+
+            if(current.data == data){
+               return counter;
+            }
+            current = current.next;
+            counter++;
+        }
+        return -1;
+    }
+
+    //----------------------------------------------------------------
+
+    public void clear(){
+        this.head = this.tail = null;
+        length = 0;
+    }
+
+    //----------------------------------------------------------------
+
+    public void deleteHead(){
+
+        if (empty()){
+            System.out.println("empty tail");
+            return;
+        }
+
+        this.head = this.head.next;
+        length--;
+    }
+
+    //----------------------------------------------------------------
+
+    public void deleteTail(){
+
+        if (empty()){
+            System.out.println("Empty list");
+            return;
+        }
+
+        int counter = 1;
+        Node current = head;
+        while(counter < length -1){
+            current = current.next;
+            counter ++;
+        }
+
+        this.tail = current;
+        this.tail.next = null;
+        length--;
+    }
+
+    //----------------------------------------------------------------
+
+    public void deleteAtIndex(int index) {
+        if (empty() || index >= length || index < 0) {
+            System.out.println("Out of bounds");
+            return;
+        }
+
+        if (index == 0){
+            deleteHead();
+            return;
+        }
+
+        if ( index == length-1){
+            deleteTail();
+            return;
+        }
+
+        int counter = 1;
+        Node current = head;
+        while(counter < index){
+            current = current.next;
+            counter ++;
+        }
+        current.next = current.next.next;
+        length--;
+    }
     //----------------------------------------------------------------
 
 }
