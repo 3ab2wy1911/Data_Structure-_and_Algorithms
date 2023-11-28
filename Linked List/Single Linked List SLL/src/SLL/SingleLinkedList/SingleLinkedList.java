@@ -75,7 +75,7 @@ public class SingleLinkedList {
         newNode.next = current.next;
         current.next = newNode;
     }
-    
+
     //----------------------------------------------------------------
 
     public void print (){
