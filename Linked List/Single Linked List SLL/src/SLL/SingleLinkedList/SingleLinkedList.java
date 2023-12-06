@@ -2,9 +2,9 @@ package SLL.SingleLinkedList;
 import SLL.*;
 
 public class SingleLinkedList {
-    private Node head;
-    private Node tail;
-    private int length;
+    protected Node head;
+    protected Node tail;
+    protected int length;
 
     //----------------------------------------------------------------
 
