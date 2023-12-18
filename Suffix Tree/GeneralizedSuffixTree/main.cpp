@@ -17,7 +17,7 @@ struct Node {
     int suffixStart;
     int length; // The length of the suffix ... we can remove it if we want...
 
-    Node () : child(nullptr), next(nullptr), edgeStart(-1), length(-1), suffixStart(-1) {}
+    Node() : child(nullptr), next(nullptr), edgeStart(-1), length(-1), suffixStart(-1) {}
     ~Node() {
         delete child;
         delete next;
@@ -28,29 +28,30 @@ struct Node {
 
 class SuffixTree {
 public:
-    Node *root;    // The root node ... the beginning of the tree.
-    const char *str;   // The original string...
+    Node* root;    // The root node ... the beginning of the tree.
+    const char* str;   // The original string...
     int len; // The length of the string...
 
     // Parameterized constructor takes the string...
-    explicit SuffixTree(const char *str) {
+    explicit SuffixTree(const char* str) {
         this->root = new Node(); // Create a new root node
         this->str = str;   // Filling the string...
-        this->len = (int) strlen(str);
+        this->len = (int)strlen(str);
         // Here we Start to build the tree...
         for (int i = len - 1; i >= 0; i--) {    // Looping through the string from the end...
             insert(root, i, i);   // calling the function insert...
         }
     }
 
+    //----------------------------------------------------------------
 
-    void insert(Node *node, int index, int suffixStart) {
+    void insert(Node* node, int index, int suffixStart) {
         // In Insert if we found the node have no children...
         // And there is no other nodes ... then we are at the root...
         // Then just Insert the char...
 
-        Node *current = node;  // Refer to the current node...
-        Node *tmp = new Node();
+        Node* current = node;  // Refer to the current node...
+        Node* lastChild = new Node();
 
         if (current->child == nullptr) {
             // First case no children for the node...
@@ -67,41 +68,48 @@ public:
         while (current != nullptr) {    // loop through the children...
 
             if (getChar(current, index)) {  // If we found the first char in the node matching the first char in the current suffix...
-                int matchingLength = getMaximumMatchLength(current, index);
+                int matchingLength = getMaximumMatchLength(current, index); // get the length of the maximum match...
 
                 // then we must split and insert ...
                 if (matchingLength < current->length) {
                     splitAndInsert(current, matchingLength);
                 }
-                insert(current, index + matchingLength, suffixStart);
+                insert(current, index + matchingLength, suffixStart);   // call the function recursively for case 3...
                 return;    // to end the insert operation;
-            } else {
-                tmp = current;
-                current = current->next;
+            }
+            else {
+                lastChild = current;  // update last child...
+                current = current->next;    // go to next child...
             }
         }
 
-        // If we
-        Node *newNode = new Node();
+        // If we didn't find a match, just add a new child...
+        Node* newNode = new Node();
         newNode->edgeStart = index;
         newNode->length = len - index;
         newNode->suffixStart = suffixStart;
-        tmp->next = newNode;
+        lastChild->next = newNode;
     }
 
-    void updateNode(Node *current, int index) const {
+    //----------------------------------------------------------------
+
+    void updateNode(Node* current, int index) const {   // just set the node...
         current->edgeStart = index;
         current->suffixStart = index;
         current->length = len - index;
     }
 
-    bool getChar(Node *current, int index) const {
+    //----------------------------------------------------------------
+
+    bool getChar(Node* current, int index) const {  // check if there was a match ...
         return str[current->edgeStart] == str[index];
     }
 
-    int getMaximumMatchLength(Node *current, int startingIndex) const {
+    //----------------------------------------------------------------
+
+    int getMaximumMatchLength(Node* current, int startingIndex) const {
         int i = current->edgeStart, j = startingIndex, result = 0;
-        while (i < current->length + current->edgeStart and str[i] == str[j]) {
+        while (i < current->length + current->edgeStart and str[i] == str[j]) { // here we check the similarity between the node and the suffix...
             ++i;
             ++j;
             ++result;
@@ -109,28 +117,35 @@ public:
         return result;
     }
 
-    static void splitAndInsert(Node *current, int matchingLength) {
+    //----------------------------------------------------------------
+
+    static void splitAndInsert(Node* current, int matchingLength) {
 
         // update the current and the new child...
-        Node *newNode = new Node();
+        Node* newNode = new Node(); // the new child...
         newNode->edgeStart = current->edgeStart + matchingLength;
         newNode->length = current->length - matchingLength;
         newNode->suffixStart = current->suffixStart;
 
         // Minimize the length, and change the suffix start to -1 as it's no longer a leaf...
         current->length = matchingLength;
-        current->suffixStart = -1;
+        current->suffixStart = -1;  // became internal node...
 
+        // remove the old child and add the new child...
         newNode->child = current->child;
         current->child = newNode;
 
     }
 
+    //----------------------------------------------------------------
+
     [[maybe_unused]] void traverse() {
         traverse(root, 0);
     }
 
-    void traverse(Node *current, int depth) {
+    //----------------------------------------------------------------
+
+    void traverse(Node* current, int depth) {
         if (current == nullptr) {
             return;
         }
@@ -159,26 +174,30 @@ public:
         traverse(current->next, depth);
     }
 
+    //----------------------------------------------------------------
+
     void search(const char* searchStr) {
         search(root, 0, searchStr);
     }
 
-    void search(Node* node, int index, const char *searchStr){
+    //----------------------------------------------------------------
+
+    void search(Node* node, int index, const char* searchStr) {
         Node* current = node->child;    // get the first child of the node...
 
         // Looping through the children till finding a matching...
         while (current != nullptr and str[current->edgeStart] != searchStr[index]) {
-            current = current->next;
-            }
+            current = current->next;    // go to the next child...
+        }
 
         if (current == nullptr) {   // If we didn't find a matching node just return...
             return;
         }
 
         // Otherwise start comparing the two suffixes...
-        for (int i =current->edgeStart ; i<current->length + current->edgeStart; i++) {
-            if (index > ::strlen(searchStr) - 1){
-                break; // Index must not be greater than the length of the suffix.
+        for (int i = current->edgeStart; i < current->length + current->edgeStart; i++) {
+            if (index > ::strlen(searchStr) - 1) {
+                break; // Index must not be greater than the length of the suffix...
             }
             if (str[i] == searchStr[index]) {
                 index++;
@@ -187,22 +206,24 @@ public:
             return;
         }
 
-        if(index == ::strlen(searchStr)){
-            getIndex(current);
-            cout <<endl;
+        if (index == ::strlen(searchStr)) {
+            getIndex(current);  // Get the suffix Start...
+            cout << endl;
         }
 
-        else if (index < ::strlen(searchStr)){
-            search (current, index, searchStr);
+        else if (index < ::strlen(searchStr)) {
+            search(current, index, searchStr);
         }
     }
 
-    void getIndex(Node *current) { // Get the suffixStart...
+    //----------------------------------------------------------------
+
+    void getIndex(Node* current) { // Get the suffixStart...
         if (current != nullptr && current->suffixStart != -1) { // Check that we are on a leaf...
             cout << current->suffixStart << " ";
         }
 
-        Node *node = ((current != nullptr) ? current->child : nullptr);
+        Node* node = ((current != nullptr) ? current->child : nullptr);
         while (node != nullptr) {
             getIndex(node);
             node = node->next;
@@ -212,6 +233,7 @@ public:
 
 };
 
+//============================================================
 
 int main() {
     // Test Case 0
