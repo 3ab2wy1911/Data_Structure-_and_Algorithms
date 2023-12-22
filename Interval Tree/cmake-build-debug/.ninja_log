@@ -1,0 +1,15 @@
+# ninja log v5
+1	1020	7249654433804545	CMakeFiles/Interval_Tree.dir/main.cpp.obj	7f1bfa17ead7211c
+1027	1394	7249654437474717	Interval_Tree.exe	2f3f46607dd81b9f
+6	776	7249656682723077	CMakeFiles/Interval_Tree.dir/main.cpp.obj	7f1bfa17ead7211c
+778	1047	7249656685356049	Interval_Tree.exe	2f3f46607dd81b9f
+5	648	7249657047418565	CMakeFiles/Interval_Tree.dir/main.cpp.obj	7f1bfa17ead7211c
+650	890	7249657049761977	Interval_Tree.exe	2f3f46607dd81b9f
+6	677	7249657199540400	CMakeFiles/Interval_Tree.dir/main.cpp.obj	7f1bfa17ead7211c
+678	917	7249657201873839	Interval_Tree.exe	2f3f46607dd81b9f
+5	634	7249657318707545	CMakeFiles/Interval_Tree.dir/main.cpp.obj	7f1bfa17ead7211c
+636	885	7249657321144088	Interval_Tree.exe	2f3f46607dd81b9f
+6	723	7249672582162678	CMakeFiles/Interval_Tree.dir/main.cpp.obj	7f1bfa17ead7211c
+724	1002	7249672584885396	Interval_Tree.exe	2f3f46607dd81b9f
+5	633	7249673537651604	CMakeFiles/Interval_Tree.dir/main.cpp.obj	7f1bfa17ead7211c
+634	876	7249673540015305	Interval_Tree.exe	2f3f46607dd81b9f
