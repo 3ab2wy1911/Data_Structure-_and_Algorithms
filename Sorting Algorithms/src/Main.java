@@ -1,5 +1,6 @@
 import BubbleSort.BubbleSort;
 import InsertionSort.InsertionSort;
+import QuickSort.QuickSort;
 import SelectionSort.SelectionSort;
 
 public class Main {
@@ -16,7 +17,8 @@ public class Main {
         int[] nums = {9,4,3,7,6,1,2,5,8};
 //        BubbleSort.sort(nums);  // Bubble Sort
 //        SelectionSort.sort(nums); // Selection Sort
-        InsertionSort.sort(nums); // Insertion Sort
+//        InsertionSort.sort(nums); // Insertion Sort
+        QuickSort.sort(nums,0,nums.length-1); // Quick Sort
         print(nums);
     }
 }
