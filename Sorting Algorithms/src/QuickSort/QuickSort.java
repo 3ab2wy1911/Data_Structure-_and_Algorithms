@@ -1,5 +1,5 @@
 package QuickSort;
-// O(1) SC & O(nLogN) TC
+// O(1) SC & O(n Log n) TC
 public class QuickSort {
     public static void sort(int [] nums, int start, int end){
         if(start < end){

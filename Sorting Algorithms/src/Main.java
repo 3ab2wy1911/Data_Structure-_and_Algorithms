@@ -1,5 +1,6 @@
 import BubbleSort.BubbleSort;
 import InsertionSort.InsertionSort;
+import MergeSort.MergeSort;
 import QuickSort.QuickSort;
 import SelectionSort.SelectionSort;
 
@@ -18,7 +19,8 @@ public class Main {
 //        BubbleSort.sort(nums);  // Bubble Sort
 //        SelectionSort.sort(nums); // Selection Sort
 //        InsertionSort.sort(nums); // Insertion Sort
-        QuickSort.sort(nums,0,nums.length-1); // Quick Sort
+//        QuickSort.sort(nums,0,nums.length-1); // Quick Sort
+        MergeSort.sort(nums,0,nums.length-1); // Merge Sort
         print(nums);
     }
 }
